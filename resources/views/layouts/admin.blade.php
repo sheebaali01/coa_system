@@ -31,10 +31,10 @@
                     <i class="fas fa-qrcode mr-3"></i>
                     <span>Scan Logs</span>
                 </a>
-                <a href="#" class="flex items-center px-6 py-3 hover:bg-indigo-800">
+                <!-- <a href="#" class="flex items-center px-6 py-3 hover:bg-indigo-800">
                     <i class="fas fa-cog mr-3"></i>
                     <span>Settings</span>
-                </a>
+                </a> -->
             </nav>
 
             <div class="absolute bottom-0 w-64 p-6 border-t border-indigo-800">
@@ -56,14 +56,14 @@
             <header class="bg-white shadow-sm">
                 <div class="px-8 py-4 flex justify-between items-center">
                     <h2 class="text-2xl font-semibold text-gray-800">@yield('page-title')</h2>
-                    <div class="flex items-center space-x-4">
+                    <!-- <div class="flex items-center space-x-4">
                         <button class="p-2 hover:bg-gray-100 rounded-lg">
                             <i class="fas fa-bell text-gray-600"></i>
                         </button>
                         <button class="p-2 hover:bg-gray-100 rounded-lg">
                             <i class="fas fa-search text-gray-600"></i>
                         </button>
-                    </div>
+                    </div> -->
                 </div>
             </header>
 
@@ -83,7 +83,7 @@
             </div>
             @endif
 
-            @if($errors->any())
+            <!-- @if($errors->any())
             <div class="mx-8 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
                 <div class="flex items-center mb-2">
                     <i class="fas fa-exclamation-circle text-red-600 mr-3"></i>
@@ -95,7 +95,7 @@
                     @endforeach
                 </ul>
             </div>
-            @endif
+            @endif -->
 
             <!-- Page Content -->
             <main class="p-8">

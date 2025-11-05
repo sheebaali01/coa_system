@@ -85,4 +85,12 @@ class SkuController extends Controller
         $sku = Sku::withCount('batches')->findOrFail($id);
         return view('admin.sku.view', compact('sku'));
     }
+
+    public function delete($id)
+    {
+        $sku = Sku::find($id);
+        $sku->delete();
+        Session::flash('success', 'SKU deleted successfully!');
+        return redirect()->route('admin.skus.index');
+    }
 }

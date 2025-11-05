@@ -15,6 +15,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get('/', [SkuController::class, 'index'])->name('index');
         Route::any('/add', [SkuController::class, 'add'])->name('add');
         Route::any('/update/{id}', [SkuController::class, 'update'])->name('update');
+        Route::any('/delete/{id}', [SkuController::class, 'delete'])->name('delete');
         Route::any('/view/{id}', [SkuController::class, 'view'])->name('view');
     });
     Route::prefix('batches')->name('batches.')->group(function () {
