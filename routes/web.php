@@ -10,7 +10,8 @@ Route::get('/', function () {
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
-    });
+    })->name('dashboard');
+    
     Route::prefix('skus')->name('skus.')->group(function () {
         Route::get('/', [SkuController::class, 'index'])->name('index');
         Route::any('/add', [SkuController::class, 'add'])->name('add');

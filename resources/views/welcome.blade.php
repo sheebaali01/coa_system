@@ -14,6 +14,6 @@
        
     </head>
     <body class="">
-        <a href="{{route('dashboard')}}" class="link-primary">Primary link</a>
+        <a href="{{route('admin.dashboard')}}" class="link-primary">Primary link</a>
     </body>
 </html>
