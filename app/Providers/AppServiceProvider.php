@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Foundation\AliasLoader;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+       // Register alias for Intervention Image
+        $loader = AliasLoader::getInstance();
+        $loader->alias('Image', \Intervention\Image\Facades\Image::class);
     }
 }

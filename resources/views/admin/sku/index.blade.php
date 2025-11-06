@@ -47,7 +47,9 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{ $sku->batches_count }}
+                        <a href="{{ route('admin.batches.index', ['skuId' => $sku->id]) }}">
+                            {{ $sku->batches_count }}
+                        </a>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         @if($sku->is_active)
@@ -72,7 +74,7 @@
                                 class="text-red-600 hover:text-red-900" title="Delete">
                                 <i class="fas fa-trash"></i>
                             </button>
-                            <a href="{{ route('admin.batches.index', ['sku' => $sku->id]) }}" class="text-green-600 hover:text-green-900" title="Add Batch">
+                            <a href="{{ route('admin.batches.index', ['skuId' => $sku->id]) }}" class="text-green-600 hover:text-green-900" title="Add Batch">
                                 <i class="fas fa-plus-circle"></i>
                             </a>
                         </div>

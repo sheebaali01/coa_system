@@ -21,55 +21,72 @@
             <thead class="bg-gray-50 border-b border-gray-100">
                 <tr>
                     <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU Code</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Batches</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Batch Number</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Vials</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lot Number</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Document</th>
                     <th class="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-                @forelse($batches as $sku)
+                @forelse($batches as $batch)
                 <tr class="hover:bg-gray-50 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="text-sm font-mono font-semibold text-indigo-600">{{ $sku->sku_code }}</span>
+                        <span class="text-sm font-mono font-semibold text-indigo-600">{{ $batch->sku->sku_code }}</span>
                     </td>
                     <td class="px-6 py-4">
-                        <div class="text-sm font-medium text-gray-900">{{ $sku->product_name }}</div>
-                        <div class="text-sm text-gray-500">{{ Str::limit($sku->description, 50) }}</div>
+                        <div class="text-sm font-medium text-gray-900">{{ $batch->batch_number }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <span class="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
-                            {{ $sku->category ?? 'Uncategorized' }}
+                            {{ $batch->total_vials}}
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{ $sku->batches_count }}
+                        {{ $batch->lot_number }}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        @if($sku->is_active)
-                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700">
-                            Active
-                        </span>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        @if($batch->coa_document)
+                            @php
+                                $filePath = 'storage/coa_documents/' .$batch->batch_number . '/' . $batch->coa_document;
+                                $extension = strtolower(pathinfo($batch->coa_document, PATHINFO_EXTENSION));
+                            @endphp
+
+                            @if(in_array($extension, ['jpg', 'jpeg', 'png', 'gif']))
+                                {{-- Image Preview --}}
+                                <a href="{{ asset($filePath) }}" target="_blank">
+                                    <img src="{{ asset($filePath) }}" 
+                                        alt="Document Preview" 
+                                        class="w-12 h-12 object-cover rounded border border-gray-300 hover:shadow-md transition-shadow">
+                                </a>
+                            @elseif($extension === 'pdf')
+                                {{-- PDF Icon --}}
+                                <a href="{{ asset($filePath) }}" target="_blank" class="flex items-center space-x-2 text-red-600 hover:text-red-700">
+                                    <i class="fas fa-file-pdf text-2xl"></i>
+                                </a>
+                            @else
+                                <a href="{{ asset($filePath) }}" target="_blank" class="text-indigo-600 hover:underline">
+                                    Download File
+                                </a>
+                            @endif
                         @else
-                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-red-100 text-red-700">
-                            Inactive
-                        </span>
+                            <span class="text-gray-400 italic">No document</span>
                         @endif
                     </td>
+
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div class="flex justify-end space-x-2">
-                            <a href="{{ route('admin.skus.view', $sku->id) }}" class="text-indigo-600 hover:text-indigo-900" title="View">
+                            <a href="{{ route('admin.batches.view', $batch->id) }}" class="text-indigo-600 hover:text-indigo-900" title="View">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="{{ route('admin.skus.update', $sku->id) }}" class="text-blue-600 hover:text-blue-900" title="Edit">
+                            <a href="{{ route('admin.batches.update', $batch->id) }}" class="text-blue-600 hover:text-blue-900" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button onclick="openDeleteModal({{ $sku->id }})" 
+                            <button onclick="openDeleteModal({{ $batch->id }})" 
                                 class="text-red-600 hover:text-red-900" title="Delete">
                                 <i class="fas fa-trash"></i>
                             </button>
-                            <a href="{{ route('admin.batches.index', ['sku' => $sku->id]) }}" class="text-green-600 hover:text-green-900" title="Add Batch">
+                            <a href="{{ route('admin.batches.index', ['batch' => $batch->id]) }}" class="text-green-600 hover:text-green-900" title="Add Batch">
                                 <i class="fas fa-plus-circle"></i>
                             </a>
                         </div>
@@ -79,10 +96,7 @@
                 <tr>
                     <td colspan="7" class="px-6 py-12 text-center">
                         <i class="fas fa-box-open text-gray-300 text-5xl mb-4"></i>
-                        <p class="text-gray-500">No SKUs found. Create your first SKU to get started!</p>
-                        <a href="{{ route('admin.skus.create') }}" class="inline-block mt-4 text-indigo-600 hover:text-indigo-800">
-                            <i class="fas fa-plus mr-2"></i>Create SKU
-                        </a>
+                        <p class="text-gray-500">No batch found</p>
                     </td>
                 </tr>
                 @endforelse
@@ -116,31 +130,13 @@
 
         <!-- Modal Body -->
         <div class="p-6">
-            <p class="text-gray-600 mb-4">Are you sure you want to delete this SKU?</p>
-            
-            <!-- <div class="bg-gray-50 rounded-lg p-4 mb-4">
-                <div class="flex items-start">
-                    <i class="fas fa-box text-gray-400 mt-1 mr-3"></i>
-                    <div>
-                        <p class="text-sm text-gray-500">SKU Code</p>
-                        <p class="font-mono font-semibold text-gray-800" id="modalSkuCode"></p>
-                    </div>
-                </div>
-                <div class="flex items-start mt-3">
-                    <i class="fas fa-tag text-gray-400 mt-1 mr-3"></i>
-                    <div>
-                        <p class="text-sm text-gray-500">Product Name</p>
-                        <p class="font-medium text-gray-800" id="modalProductName"></p>
-                    </div>
-                </div>
-            </div> -->
-
+            <p class="text-gray-600 mb-4">Are you sure you want to delete this Batch?</p>
             <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
                 <div class="flex items-start">
                     <i class="fas fa-info-circle text-red-600 mt-1 mr-3"></i>
                     <div>
                         <p class="text-sm font-semibold text-red-800 mb-1">Warning</p>
-                        <p class="text-sm text-red-700">This action cannot be undone. All associated batches and vials will also be deleted.</p>
+                        <p class="text-sm text-red-700">This action cannot be undone. All associated vials will also be deleted.</p>
                     </div>
                 </div>
             </div>
@@ -157,7 +153,7 @@
                     @csrf
                     <button type="submit" 
                         class="px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
-                        <i class="fas fa-trash-alt mr-2"></i>Delete SKU
+                        <i class="fas fa-trash-alt mr-2"></i>Delete Batch
                     </button>
                 </form>
             </div>
@@ -165,16 +161,16 @@
     </div>
 </div>
 <script>
-    let currentSkuId = null;
+    let currentBatchId = null;
 
-    function openDeleteModal(skuId) {
-        currentSkuId = skuId;
+    function openDeleteModal(batchId) {
+        currentBatchId = batchId;
         
 
         
         // Update form action
         const deleteForm = document.getElementById('deleteForm');
-        deleteForm.action = `/admin/skus/delete/${skuId}`;
+        deleteForm.action = `/admin/batches/delete/${batchId}`;
         
         // Show modal with animation
         const modal = document.getElementById('deleteModal');
@@ -189,7 +185,7 @@
         modal.classList.remove('opacity-100');
         setTimeout(() => {
             modal.classList.add('hidden');
-            currentSkuId = null;
+            currentBatchId = null;
         }, 300);
     }
 

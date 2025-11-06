@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('batch_id');
             $table->string('vial_number', 50); // e.g., "VIAL #1", "V-001"
-            $table->string('unique_code', 255)->unique(); // Human-readable unique code
-            $table->text('qr_code',500); // QR code data (URL)
+            $table->string('unique_code', 255)->unique(); // Human-readable unique code    
             $table->string('qr_code_image')->nullable(); // Path to QR code image
             $table->boolean('is_scanned')->default(false);
             $table->timestamp('first_scan_at')->nullable();

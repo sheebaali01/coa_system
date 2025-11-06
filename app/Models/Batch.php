@@ -40,6 +40,15 @@ class Batch extends Model
         'scan_rate'
     ];
 
+    protected static function booted()
+    {
+        static::created(function ($batch) {
+            // dispatch(function () use ($batch) {
+                app(\App\Services\VialService::class)->generateVialsForBatch($batch);
+            // })->onQueue('vials');
+        });
+    }
+
     // Relationships
     public function sku()
     {

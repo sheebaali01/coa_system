@@ -110,7 +110,7 @@
             <!-- COA Document Upload -->
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">COA Document</label>
-                <input type="file" name="coa_document" accept=".pdf"
+                <input type="file" name="coa_document" accept=".pdf,.image/*"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                 @error('coa_document')
                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>

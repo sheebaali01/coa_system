@@ -11,6 +11,7 @@ class SkuController extends Controller
 {
     public function index()
     {
+        
         $skus = Sku::withCount('batches')->get();
         return view('admin.sku.index', compact('skus'));
     }

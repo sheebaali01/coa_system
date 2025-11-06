@@ -4,15 +4,21 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Batch;
 use App\Models\Sku;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class BatchController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $batches = Batch::all();
+        $query = Batch::with('sku');
+        if ($request->has('skuId')) {
+            $query->where('sku_id', $request->skuId);
+        }
+        $batches = $query->get();
         return view('admin.batch.index', compact('batches'));
     }
 
@@ -25,7 +31,7 @@ class BatchController extends Controller
         return view('admin.batch.add', compact('skus'));
     }
 
-    public function _add()
+    public function _add(Request $request)
     {  
         $validator = Validator::make($request->all(),[
             'sku_id' => 'required|exists:skus,id',
@@ -34,14 +40,21 @@ class BatchController extends Controller
             'manufacture_date' => 'required|date',
             'expiry_date' => 'required|date|after:manufacture_date',
             'status' => 'required|in:active,expired,recalled,pending',
-            // 'lot_number' => 'nullable|string|max:255',
-            // 'coa_document' => 'nullable|file|mimes:pdf|max:10240',
+            'lot_number' => 'nullable|string|max:255',
+            'coa_document' => 'nullable|file',
         ]);
-
+        $fileName = null;
         // Handle file upload
         if ($request->hasFile('coa_document')) {
-            $validated['coa_document'] = $request->file('coa_document')
-                ->store('coa_documents', 'public');
+            $file = $request->file('coa_document');
+            $timestamp = now()->timestamp;
+
+            // Generate unique + clean file name
+            $originalExt = $file->getClientOriginalExtension();
+            $fileName = uniqid() . "_batch_" . $request->batch_number . "_{$timestamp}." . $originalExt;
+
+            // Store in storage/app/public/coa_documents/{batch_number}/
+            $path = $file->storeAs("coa_documents/{$request->batch_number}", $fileName, 'public');
         }
 
         $batch = new Batch();
@@ -51,9 +64,10 @@ class BatchController extends Controller
         $batch->manufacture_date = $request->manufacture_date;
         $batch->expiry_date = $request->expiry_date;
         $batch->status = $request->status;
-        // $batch->lot_number = $request->lot_number;
-        // $batch->coa_document = $request->coa_document;
+        $batch->lot_number = $request->lot_number;
+        $batch->coa_document = $fileName;
         $batch->save();
+
         Session::flash('success', 'Batch added successfully!');
         return redirect()->route('admin.batches.index');
     } 
