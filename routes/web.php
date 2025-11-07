@@ -3,26 +3,36 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SkuController;
 use App\Http\Controllers\Admin\BatchController;
+use App\Http\Controllers\Admin\VialController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Intervention\Image\Laravel\Facades\Image;
-use Intervention\Image\Encoders\PngEncoder;
-use SimpleSoftwareIO\QrCode\Generator;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/test-qr', function () {
-    $qr = new Generator;
-    $pngBinary = $qr->size(300)
-                    ->encoding('UTF-8')
-                    ->writer('png') 
-                    ->generate('Hello GD!');
-    $image = Image::read($pngBinary);
+
+    $svg = QrCode::size(300)->generate('Hello GD!');
+
+    // 2️⃣ Save to public disk
+    $fileName = 'qrcodes/hello.svg';
+    Storage::disk('public')->put($fileName, $svg);
+
+    // 3️⃣ Make it accessible
+    $url = Storage::url($fileName); // returns /storage/qrcodes/hello.svg
+
+    // 4️⃣ Return URL or display image
+    return "<img src='{$url}' alt='QR Code'>";
+
+    // $svg = QrCode::size(300)->generate('Hello GD!');
+    // $image = Image::read($svg);
 
     // Encode and return
-    $png = $image->encode(new PngEncoder());
+    // $png = $image->encode(new PngEncoder());
     // Step 3: Return PNG response
-    return response($png)->header('Content-Type', 'image/png');
+    // return $svg;
         //     $img =Image::make($QR);
 
         // $now=Carbon::now();
@@ -61,5 +71,12 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::any('/add', [BatchController::class, 'add'])->name('add');
         Route::any('/update/{id}', [BatchController::class, 'update'])->name('update');
         Route::any('/view/{id}', [BatchController::class, 'view'])->name('view');
+    });
+
+    Route::prefix('vials')->name('vials.')->group(function () {
+        Route::get('/{batchId}', [VialController::class, 'index'])->name('index');
+        Route::any('/add', [VialController::class, 'add'])->name('add');
+        Route::any('/update/{id}', [VialController::class, 'update'])->name('update');
+        Route::any('/view/{id}', [VialController::class, 'view'])->name('view');
     });
 });

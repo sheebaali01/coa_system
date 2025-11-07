@@ -20,14 +20,10 @@ class VialService
 
         for ($i = 1; $i <= $batch->total_vials; $i++) {
             $code = $batch->batch_number . '-' . str_pad($i, 4, '0', STR_PAD_LEFT);
-            $path = "qr_codes/{$batch->batch_number}/{$code}.png";
+            $path = "qr_codes/{$batch->batch_number}/{$code}.svg";
 
             // Generate QR code
-            $qr = QrCode::format('png')
-                ->size(200)
-                ->margin(1)
-                ->errorCorrection('H')
-                ->generate($code);
+            $qr = QrCode::size(300)->generate($code);
 
             // Save to storage/app/public/qr_codes/{batch_number}/
             Storage::disk('public')->put($path, $qr);
