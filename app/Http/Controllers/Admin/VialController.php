@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use App\Models\Vial;
+use App\Exports\VialsExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VialController extends Controller
 {
@@ -96,5 +99,23 @@ class VialController extends Controller
         $sku->delete();
         Session::flash('success', 'SKU deleted successfully!');
         return redirect()->route('admin.skus.index');
+    }
+
+    public function exportExcel()
+    {
+        $fileName = 'vials_' . now()->format('Y-m-d_His') . '.xlsx';
+        
+        return Excel::download(new VialsExport(), $fileName);
+    }
+    public function exportPdf()
+    {
+        $vials = Vial::with(['batch.sku'])->get();
+        
+        $pdf = Pdf::loadView('admin.vial.pdf', compact('vials'))
+                  ->setPaper('a4', 'landscape');
+        
+        $fileName = 'vials_' . now()->format('Y-m-d_His') . '.pdf';
+        
+        return $pdf->download($fileName);
     }
 }
