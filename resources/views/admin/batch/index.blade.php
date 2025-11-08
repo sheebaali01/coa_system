@@ -39,7 +39,10 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <span class="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
-                            {{ $batch->total_vials}}
+                            <a href="{{ route('admin.vials.index', $batch->id)}}">
+
+                                {{ $batch->total_vials}}
+                            </a>
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
