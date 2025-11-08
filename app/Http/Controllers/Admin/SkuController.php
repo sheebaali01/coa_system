@@ -94,4 +94,74 @@ class SkuController extends Controller
         Session::flash('success', 'SKU deleted successfully!');
         return redirect()->route('admin.skus.index');
     }
+
+    public function getAllSku(Request $request){
+        try {
+            $response = [];
+            $skus = Sku::all();
+            if($skus->count > 0){
+                $response['status'] = "success";
+                $response['message'] = "success";
+                $response['data'] = $skus;
+                
+            }
+            else{
+                $response['status'] = "error";
+                $response['message'] = "error";
+                $response['data'] = [];
+            }
+            return $response;
+        } catch (\Exception $e) {
+            $response['status'] = "error";
+            $response['message'] = "No record found";
+            $response['data'] = [];
+            return $response;
+        }
+    }
+    public function getAllBatch(Request $request){
+        try {
+            $response = [];
+            $sku = Sku::find($request->skuId);
+            if($sku){
+                $batches = $sku->batches;
+                $response['status'] = "success";
+                $response['message'] = "success";
+                $response['data'] = $batches;
+                
+            }
+            else{
+                $response['status'] = "error";
+                $response['message'] = "error";
+                $response['data'] = [];
+            }
+            return $response;
+        } catch (\Exception $e) {
+            $response['status'] = "error";
+            $response['message'] = "No record found";
+            $response['data'] = [];
+            return $response;
+        }
+    }
+
+    public function getBatchDetail(Request $request){
+        try {
+            $batch = Batch::with(['sku','vials'])->find($request->batchId);
+            if($batch){
+                $response['status'] = "success";
+                $response['message'] = "success";
+                $response['data'] = $batch;
+                
+            }
+            else{
+                $response['status'] = "error";
+                $response['message'] = "error";
+                $response['data'] = [];
+            }
+            return $response;
+        } catch (\Exception $e) {
+            $response['status'] = "error";
+            $response['message'] = "error";
+            $response['data'] = [];
+        }
+    }
 }
