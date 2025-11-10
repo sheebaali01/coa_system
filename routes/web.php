@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SkuController;
 use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\VialController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\AuthController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Intervention\Image\Laravel\Facades\Image;
@@ -74,10 +75,10 @@ Route::get('/scan/redirect/{vial}', [VialController::class, 'instantRedirect'])
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
-    
+    // Route::get('/dashboard', function () {
+    //     return view('admin.dashboard');
+    // })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::prefix('skus')->name('skus.')->group(function () {
         Route::get('/', [SkuController::class, 'index'])->name('index');
         Route::any('/add', [SkuController::class, 'add'])->name('add');
