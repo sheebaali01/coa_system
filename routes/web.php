@@ -4,17 +4,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SkuController;
 use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\VialController;
+use App\Http\Controllers\Auth\AuthController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Intervention\Image\Laravel\Facades\Image;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Facades\Hash;
 
+Route::get('/test-hash', function () {
+    return Hash::make('12345678');
+});
 Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/test-qr', function () {
 
-    $svg = QrCode::size(300)->generate('Hello GD!');
+    $svg = QrCode::format('png')->size(300)->generate('Hello GD!');
 
     // 2️⃣ Save to public disk
     $fileName = 'qrcodes/hello.svg';
@@ -54,7 +59,11 @@ Route::get('/test-qr', function () {
         // //Storage::disk('gcs')->putFileAs("/patrols/media/qr/".$waypoint->patrol_id."/", $avatarStoragePath, $fileName, 'public');
         // $img->destroy();
 });
-Route::name('admin.')->prefix('admin')->group(function () {
+Route::get('/scan/{code}', [VialController::class, 'scanVial']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
@@ -82,5 +91,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         ->name('export.pdf');
         Route::get('/export/excel', [VialController::class, 'exportExcel'])
         ->name('export.excel');
+        Route::post('/resetAll/{batchId}', [VialController::class, 'resetAllQrCodes']);
+        Route::post('/reset/{vialId}', [VialController::class, 'resetQrCode']);
     });
 });

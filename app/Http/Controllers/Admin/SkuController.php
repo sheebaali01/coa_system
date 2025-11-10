@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use App\Models\Sku;
+use App\Models\Batch;
+use Spatie\PdfToImage\Pdf;
 class SkuController extends Controller
 {
     public function index()
@@ -99,15 +101,15 @@ class SkuController extends Controller
         try {
             $response = [];
             $skus = Sku::all();
-            if($skus->count > 0){
+            if($skus->count() > 0){
                 $response['status'] = "success";
                 $response['message'] = "success";
                 $response['data'] = $skus;
                 
             }
             else{
-                $response['status'] = "error";
-                $response['message'] = "error";
+                $response['status'] = "success";
+                $response['message'] = "No record found";
                 $response['data'] = [];
             }
             return $response;
@@ -130,8 +132,8 @@ class SkuController extends Controller
                 
             }
             else{
-                $response['status'] = "error";
-                $response['message'] = "error";
+                $response['status'] = "success";
+                $response['message'] = "No record found";
                 $response['data'] = [];
             }
             return $response;
@@ -143,25 +145,33 @@ class SkuController extends Controller
         }
     }
 
-    public function getBatchDetail(Request $request){
-        try {
+    public function getBatchDetails(Request $request){
+        // try {
             $batch = Batch::with(['sku','vials'])->find($request->batchId);
             if($batch){
+
+
+                // $pdfPath = storage_path("app/public/coa_documents/{$batch->batch_number}/{$batch->coa_document}"); // e.g., PEP-001-A.pdf
+                // $pdfImage = (new Pdf($pdfPath))->setPage(1)->saveImage(); // saves first page as PNG
+                // $imageUrl = asset('storage/coa/' . basename($pdfImage));
+                // $batch->coa_image_url = $imageUrl;
+                // dd($batch->coa_image_url);
+
                 $response['status'] = "success";
                 $response['message'] = "success";
                 $response['data'] = $batch;
                 
             }
             else{
-                $response['status'] = "error";
-                $response['message'] = "error";
-                $response['data'] = [];
+                $response['status'] = "success";
+                $response['message'] = "No record found";
+                $response['data'] = null;
             }
             return $response;
-        } catch (\Exception $e) {
-            $response['status'] = "error";
-            $response['message'] = "error";
-            $response['data'] = [];
-        }
+        // } catch (\Exception $e) {
+        //     $response['status'] = "error";
+        //     $response['message'] = "error";
+        //     $response['data'] = null;
+        // }
     }
 }

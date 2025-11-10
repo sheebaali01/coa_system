@@ -127,19 +127,7 @@ class Vial extends Model
             ]);
         }
 
-        $this->increment('scan_count');
-
-        // Create scan log
-        $scanLog = $this->scanLogs()->create([
-            'user_id' => $userId,
-            'ip_address' => $ipAddress,
-            'user_agent' => $userAgent,
-            'metadata' => $metadata,
-            'scanned_at' => now(),
-        ]);
-
-        // Refresh the model to get updated scan_count
-        $this->refresh();
+        // $this->increment('scan_count');
 
         return [
             'is_first_scan' => $isFirstScan,

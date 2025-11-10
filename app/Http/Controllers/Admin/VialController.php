@@ -10,16 +10,16 @@ use App\Models\Vial;
 use App\Exports\VialsExport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class VialController extends Controller
 {
     public function index(Request $request,$batchId)
     {
-
         $vials = Vial::with('batch.sku')
         ->where('batch_id', $batchId)
         ->get();
-        return view('admin.vial.index', compact('vials'));
+        return view('admin.vial.index', compact(['vials','batchId']));
     }
 
     public function add(Request $request)
@@ -117,5 +117,78 @@ class VialController extends Controller
         $fileName = 'vials_' . now()->format('Y-m-d_His') . '.pdf';
         
         return $pdf->download($fileName);
+    }
+
+    public function scanVial($code, Request $request)
+    {
+        $vial = Vial::where('unique_code', $code)->first();
+
+        if (!$vial) {
+            return view('vials.scan_result', [
+                'status' => 'error',
+                'message' => 'Vial not found!',
+                'vial' => null,
+            ]);
+        }
+
+        $result = $vial->scan(
+            $request->ip(),
+            $request->userAgent(),
+            ['referrer' => $request->headers->get('referer')],
+            auth()->id()
+        );       
+    }
+
+    public function resetAllQrCodes($batchId)
+    {
+        try {
+            DB::beginTransaction();
+            // Reset all vials
+            Vial::where('is_scanned', 1)->where('batch_id',$batchId)->update([
+                'is_scanned' => 0,
+                'first_scan_at' => null
+            ]);
+            
+            DB::commit();
+                      
+           Session::flash('success', 'Reset successful!');
+            return response()->json([
+                'success' => true,
+                'redirect' => true
+            ]);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            Session::flash('error', 'Something went wrong!');
+            return response()->json([
+                'success' => true,
+                'redirect' => true
+            ]);
+        }
+    }
+
+    public function resetQrCode($vialId)
+    {
+        try {       
+            Vial::where('batch_id',$vialId)->update([
+                'is_scanned' => 0,
+                'first_scan_at' => null
+            ]);
+                      
+            Session::flash('success', 'Reset successful!');
+            return response()->json([
+                'success' => true,
+                'redirect' => true
+            ]);
+            
+        } catch (\Exception $e) {
+            
+            Session::flash('error', 'Something went wrong!');
+            return response()->json([
+                'success' => true,
+                'redirect' => true
+            ]);
+        }
     }
 }

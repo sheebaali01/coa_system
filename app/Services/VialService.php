@@ -20,10 +20,17 @@ class VialService
 
         for ($i = 1; $i <= $batch->total_vials; $i++) {
             $code = $batch->batch_number . '-' . str_pad($i, 4, '0', STR_PAD_LEFT);
-            $path = "qr_codes/{$batch->batch_number}/{$code}.svg";
 
+            $path = "qr_codes/{$batch->batch_number}/{$code}.svg";
+            // $url = url('/scan/' . $code);
+            // $url = 'https://instantpeptides.com?vial=' . urlencode($code);
+
+            $url = 'https://instantpeptides.com/batch-lookup?' . http_build_query([
+            
+                'vial'  => $code,
+            ]);
             // Generate QR code
-            $qr = QrCode::size(300)->generate($code);
+            $qr = QrCode::size(300)->generate($url);
 
             // Save to storage/app/public/qr_codes/{batch_number}/
             Storage::disk('public')->put($path, $qr);
