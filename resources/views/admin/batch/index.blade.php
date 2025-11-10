@@ -3,7 +3,7 @@
 @section('page-title', 'Batch Management')
 
 @section('content')
-<div class="mb-6 flex justify-between items-center">
+<div class="mb-6 flex justify-end items-center">
     <a href="{{ route('admin.batches.add') }}" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 flex items-center">
         <i class="fas fa-plus mr-2"></i>
         Add New Batch

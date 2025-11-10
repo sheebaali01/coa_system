@@ -191,4 +191,34 @@ class VialController extends Controller
             ]);
         }
     }
+
+    public function instantRedirect($vialId)
+    {
+        // 1. Find the vial
+        $vial = Vial::with('batch')->where('unique_code', $vialId)->first();
+
+        if (!$vial) {
+            // If vial not found, redirect to error page
+            return redirect()->away('https://instantpeptides.com/error?message=Invalid+vial+code');
+        }
+
+        // 2. Record the scan immediately
+        $vial->increment('scan_count');
+        
+        if (!$vial->is_scanned) {
+            $vial->update([
+                'is_scanned' => true,
+                'scanned_at' => now(),
+            ]);
+        }
+
+        // 3. Build the external URL
+        $externalUrl = 'https://instantpeptides.com/batch-lookup?' . http_build_query([
+            'vial' => $vial->vial_id,
+            'batch' => $vial->batch->batch_id,
+        ]);
+
+        // 4. INSTANT REDIRECT - no HTML, no page shown
+        return redirect()->away($externalUrl, 302);
+    }
 }

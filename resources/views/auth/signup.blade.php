@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Renew Peptides</title>
+    <title>Sign Up | Renew Peptides</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -15,12 +15,25 @@
                 <i class="fas fa-dna text-white text-2xl"></i>
             </div>
             <h1 class="text-2xl font-bold text-sage-900">Renew Peptides</h1>
-            <p class="text-sage-500 text-sm">Sign in to your account</p>
+            <p class="text-sage-500 text-sm">Create your account</p>
         </div>
 
-        <!-- Login Form -->
-        <form method="POST" action="{{ route('login.post') }}" class="space-y-5">
+        <!-- Signup Form -->
+        <form method="POST" action="{{ route('register.post') }}" class="space-y-5">
             @csrf
+
+            <div>
+                <label for="name" class="block text-sage-700 font-medium mb-1">Full Name</label>
+                <input 
+                    id="name" 
+                    type="text" 
+                    name="name" 
+                    required 
+                    class="w-full px-4 py-2.5 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 text-sage-900 placeholder-sage-400"
+                    placeholder="John Doe"
+                >
+            </div>
+
             <div>
                 <label for="email" class="block text-sage-700 font-medium mb-1">Email</label>
                 <input 
@@ -28,7 +41,6 @@
                     type="email" 
                     name="email" 
                     required 
-                    autofocus 
                     class="w-full px-4 py-2.5 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 text-sage-900 placeholder-sage-400"
                     placeholder="you@example.com"
                 >
@@ -46,6 +58,18 @@
                 >
             </div>
 
+            <div>
+                <label for="password_confirmation" class="block text-sage-700 font-medium mb-1">Confirm Password</label>
+                <input 
+                    id="password_confirmation" 
+                    type="password" 
+                    name="password_confirmation" 
+                    required 
+                    class="w-full px-4 py-2.5 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 text-sage-900 placeholder-sage-400"
+                    placeholder="••••••••"
+                >
+            </div>
+
             @if($errors->any())
                 <div class="p-3 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-md text-sm">
                     {{ $errors->first() }}
@@ -54,12 +78,21 @@
 
             <button 
                 type="submit" 
-                class="w-full py-3 bg-sage-500 hover:bg-sage-600 text-white font-semibold rounded-lg shadow-md transition-all cursor-pointer"
+                class="w-full py-3 bg-sage-500 hover:bg-sage-600 text-white font-semibold rounded-lg shadow-md transition-all"
             >
-                Login
+                Create Account
             </button>
         </form>
 
+        <!-- Footer -->
+        <p class="text-center text-sage-500 text-sm mt-8">
+            Already have an account? 
+            <a href="{{ route('login') }}" class="text-sage-600 font-medium hover:text-sage-700">Log in</a>
+        </p>
+
+        <p class="text-center text-sage-400 text-xs mt-4">
+            &copy; {{ date('Y') }} Renew Peptides. All rights reserved.
+        </p>
     </div>
 </body>
 </html>

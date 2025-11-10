@@ -60,9 +60,19 @@ Route::get('/test-qr', function () {
         // $img->destroy();
 });
 Route::get('/scan/{code}', [VialController::class, 'scanVial']);
+
+
+// Auth Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
+Route::get('/scan/redirect/{vial}', [VialController::class, 'instantRedirect'])
+    ->name('vial.instant-redirect');
+
+// Admin Routes
 Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
@@ -94,4 +104,12 @@ Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin')->group(fun
         Route::post('/resetAll/{batchId}', [VialController::class, 'resetAllQrCodes']);
         Route::post('/reset/{vialId}', [VialController::class, 'resetQrCode']);
     });
+});
+
+// User Routes
+Route::middleware(['auth', 'user'])->name('user.')->prefix('user')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('user.dashboard');
+    })->name('dashboard');
+    // other user routes...
 });

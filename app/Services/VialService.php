@@ -25,10 +25,12 @@ class VialService
             // $url = url('/scan/' . $code);
             // $url = 'https://instantpeptides.com?vial=' . urlencode($code);
 
-            $url = 'https://instantpeptides.com/batch-lookup?' . http_build_query([
+            // $url = 'https://instantpeptides.com/batch-lookup?' . http_build_query([
             
-                'vial'  => $code,
-            ]);
+            //     'vial'  => $code,
+            // ]);
+
+            $url = route('vial.instant-redirect', ['vial' => $code]);
             // Generate QR code
             $qr = QrCode::size(300)->generate($url);
 

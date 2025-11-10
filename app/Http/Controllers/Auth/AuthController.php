@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -12,7 +14,7 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
-
+    
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -33,6 +35,31 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'Invalid credentials.']);
     }
 
+    public function showRegister()
+    {
+        return view('auth.signup');
+    }
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        // Auth::login($user);
+
+        // return redirect()->route('admin.dashboard')->with('success', 'Account created successfully!');
+        return redirect()
+        ->route('login')
+        ->with('success', 'Account created successfully! Please log in to continue.');
+    }
     public function logout(Request $request)
     {
         Auth::logout();
