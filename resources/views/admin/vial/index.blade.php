@@ -3,7 +3,7 @@
 @section('page-title', 'Vial Management')
 
 @section('content')
-<div class="mb-6 flex justify-end">
+<div class="mb-6 flex justify-end gap-1">
     <div class="flex items-center space-x-3">
         <!-- <a href="{{ route('admin.vials.export.excel') }}" 
             class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 flex items-center">
@@ -11,7 +11,7 @@
             Export Excel
         </a> -->
         <a href="{{ route('admin.vials.export.pdf') }}" 
-            class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 flex items-center">
+            class="bg-sage-600 text-white px-6 py-3 rounded-lg hover:bg-sage-700 flex items-center">
             <i class="fas fa-file-pdf mr-2"></i>
             Export PDF
         </a>
@@ -19,74 +19,74 @@
     
     <!-- Reset All QR Codes Button -->
     <button onclick="openResetAllModal()" 
-        class="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 flex items-center">
+        class="bg-sage-600 text-white px-6 py-3 rounded-lg hover:bg-sage-700 flex items-center">
         <i class="fas fa-sync-alt mr-2"></i>
         Reset All QR Codes
     </button>
 </div>
 
 <!-- Vial Table -->
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-    <div class="p-6 border-b border-gray-100">
-        <h3 class="text-lg font-semibold text-gray-800">All Vials</h3>
+<div class="bg-white rounded-xl shadow-sm border border-sage-100 overflow-hidden">
+    <div class="p-6 border-b border-sage-100">
+        <h3 class="text-lg font-semibold text-sage-800">All Vials</h3>
     </div>
 
     <div class="overflow-x-auto">
         @if($vials->count() > 0)
         <table class="w-full">
-            <thead class="bg-gray-50 border-b border-gray-100">
+            <thead class="bg-sage-50 border-b border-sage-100">
                 <tr>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU Code</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Batch Number</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vial Number</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Scan At</th>
-                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-sage-500 uppercase tracking-wider">SKU Code</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-sage-500 uppercase tracking-wider">Batch Number</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-sage-500 uppercase tracking-wider">Vial Number</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-sage-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-sage-500 uppercase tracking-wider">Scan At</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-sage-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody class="divide-y divide-sage-100">
                 @forelse($vials as $vial)
-                <tr class="hover:bg-gray-50 transition-colors">
+                <tr class="hover:bg-sage-50 transition-colors">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="text-sm font-mono font-semibold text-indigo-600">{{ $vial->batch->sku->sku_code }}</span>
+                        <span class="text-sm font-mono font-semibold text-sage-600">{{ $vial->batch->sku->sku_code }}</span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
+                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-sage-100 text-sage-700">
                             {{ $vial->batch->batch_number }}
                         </span>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-sage-900">
                         {{ $vial->vial_number }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         @if($vial->is_scanned)
-                            <span class="px-3 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700">
+                            <span class="px-3 py-1 text-xs font-medium rounded-full bg-sage-100 text-sage-700">
                                 <i class="fas fa-check-circle mr-1"></i>Scanned
                             </span>
                         @else
-                            <span class="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
+                            <span class="px-3 py-1 text-xs font-medium rounded-full bg-sage-100 text-sage-700">
                                 <i class="fas fa-circle mr-1"></i>Not Scanned
                             </span>
                         @endif
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-sage-600">
                         @if($vial->first_scan_at)
                             {{ $vial->first_scan_at->format('M d, Y H:i') }}
                         @else
-                            <span class="text-gray-400">—</span>
+                            <span class="text-sage-400">—</span>
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div class="flex items-center space-x-3">
                             <button onclick='openQrModal(@json($vial))'  
-                                class="text-indigo-600 hover:text-indigo-900 transition-colors"
+                                class="text-sage-600 hover:text-sage-900 transition-colors"
                                 title="View QR Code">
                                 <i class="fas fa-qrcode text-xl"></i>
                             </button>
                             
                             @if($vial->is_scanned)
                             <button onclick="openResetModal({{ $vial->id }})" 
-                                class="text-orange-600 hover:text-orange-900 transition-colors"
+                                class="text-sage-600 hover:text-sage-900 transition-colors"
                                 title="Reset QR Code">
                                 <i class="fas fa-sync-alt text-lg"></i>
                             </button>
@@ -97,8 +97,8 @@
                 @empty
                 <tr>
                     <td colspan="6" class="px-6 py-12 text-center">
-                        <i class="fas fa-box-open text-gray-300 text-5xl mb-4"></i>
-                        <p class="text-gray-500">No vials found.</p>
+                        <i class="fas fa-box-open text-sage-300 text-5xl mb-4"></i>
+                        <p class="text-sage-500">No vials found.</p>
                     </td>
                 </tr>
                 @endforelse
@@ -106,26 +106,26 @@
         </table>
         @else
         <div class="px-6 py-12 text-center">
-            <i class="fas fa-box-open text-gray-300 text-5xl mb-4"></i>
-            <p class="text-gray-500">No vials found.</p>
+            <i class="fas fa-box-open text-sage-300 text-5xl mb-4"></i>
+            <p class="text-sage-500">No vials found.</p>
         </div>
         @endif
     </div>
 </div>
 
 <!-- QR Code Modal -->
-<div id="qrModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity">
+<div id="qrModal" class="hidden fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all">
         <!-- Modal Header -->
-        <div class="p-6 border-b border-gray-100">
+        <div class="p-6 border-b border-sage-100">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
-                        <i class="fas fa-qrcode text-indigo-600 text-xl"></i>
+                        <i class="fas fa-qrcode text-sage-600 text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800">QR Code</h3>
+                    <h3 class="text-xl font-bold text-sage-800">QR Code</h3>
                 </div>
-                <button onclick="closeQrModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <button onclick="closeQrModal()" class="text-sage-400 hover:text-sage-600 transition-colors">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
@@ -133,26 +133,26 @@
 
         <!-- Modal Body -->
         <div class="p-6">
-            <div class="bg-gray-50 rounded-lg p-4 mb-4">
-                <p class="text-sm text-gray-500 mb-1">Vial Number</p>
-                <p class="font-semibold text-gray-800" id="modalVialNumber"></p>
+            <div class="bg-sage-50 rounded-lg p-4 mb-4">
+                <p class="text-sm text-sage-500 mb-1">Vial Number</p>
+                <p class="font-semibold text-sage-800" id="modalVialNumber"></p>
             </div>
 
             <!-- QR Code Image -->
-            <div class="flex justify-center items-center bg-white border-2 border-gray-200 rounded-lg p-6 mb-4">
+            <div class="flex justify-center items-center bg-white border-2 border-sage-200 rounded-lg p-6 mb-4">
                 <img id="qrCodeImage" src="" alt="QR Code" class="max-w-full h-auto" style="max-height: 300px;">
             </div>
         </div>
 
         <!-- Modal Footer -->
-        <div class="p-6 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
+        <div class="p-6 border-t border-sage-100 bg-sage-50 rounded-b-2xl">
             <div class="flex justify-end space-x-3">
                 <button onclick="closeQrModal()" 
-                    class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+                    class="px-6 py-2.5 border border-sage-300 text-sage-700 rounded-lg hover:bg-sage-100 transition-colors font-medium">
                     <i class="fas fa-times mr-2"></i>Close
                 </button>
                 <button onclick="downloadQrCode()" 
-                    class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
+                    class="px-6 py-2.5 bg-sage-600 text-white rounded-lg hover:bg-sage-700 transition-colors font-medium">
                     <i class="fas fa-download mr-2"></i>Download
                 </button>
             </div>
@@ -161,18 +161,18 @@
 </div>
 
 <!-- Reset Single QR Code Modal -->
-<div id="resetModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity">
+<div id="resetModal" class="hidden fixed inset-0  bg-opacity-50 flex items-center justify-center z-50 transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all">
         <!-- Modal Header -->
-        <div class="p-6 border-b border-gray-100">
+        <div class="p-6 border-b border-sage-100">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
-                        <i class="fas fa-sync-alt text-orange-600 text-xl"></i>
+                    <div class="w-12 h-12 bg-sage-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-sync-alt text-sage-600 text-xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800">Reset QR Code</h3>
+                    <h3 class="text-xl font-bold text-sage-800">Reset QR Code</h3>
                 </div>
-                <button onclick="closeResetModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <button onclick="closeResetModal()" class="text-sage-400 hover:text-sage-600 transition-colors">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
@@ -180,19 +180,19 @@
 
         <!-- Modal Body -->
         <div class="p-6">
-            <p class="text-gray-600 mb-4">Are you sure you want to reset the QR code for this vial?</p>
+            <p class="text-sage-600 mb-4">Are you sure you want to reset the QR code for this vial?</p>
             
         </div>
 
         <!-- Modal Footer -->
-        <div class="p-6 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
+        <div class="p-6 border-t border-sage-100 bg-sage-50 rounded-b-2xl">
             <div class="flex justify-end space-x-3">
                 <button onclick="closeResetModal()" 
-                    class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+                    class="px-6 py-2.5 border border-sage-300 text-sage-700 rounded-lg hover:bg-sage-100 transition-colors font-medium">
                     <i class="fas fa-times mr-2"></i>Cancel
                 </button>
                 <button onclick="confirmResetQr()" 
-                    class="px-6 py-2.5 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium">
+                    class="px-6 py-2.5 bg-sage-600 text-white rounded-lg hover:bg-sage-700 transition-colors font-medium">
                     <i class="fas fa-sync-alt mr-2"></i>Reset QR Code
                 </button>
             </div>
@@ -201,14 +201,14 @@
 </div>
 
 <!-- Reset All QR Codes Modal -->
-<div id="resetAllModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity">
+<div id="resetAllModal" class="hidden fixed inset-0  bg-opacity-50 flex items-center justify-center z-50 transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all">
         <!-- Modal Header -->
-        <div class="p-6 border-b border-gray-100">
+        <div class="p-6 border-b border-sage-100">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                        <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                    <div class="w-12 h-12 bg-sage-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-exclamation-triangle text-sage-600 text-xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800">Reset All QR Codes</h3>
                 </div>
@@ -220,28 +220,28 @@
 
         <!-- Modal Body -->
         <div class="p-6">
-            <p class="text-gray-600 mb-4">Are you sure you want to reset ALL QR codes?</p>
+            <p class="text-sage-600 mb-4">Are you sure you want to reset ALL QR codes?</p>
 
-            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+            <div class="bg-sage-50 border border-sage-200 rounded-lg p-4 mb-4">
                 <div class="flex items-start">
-                    <i class="fas fa-exclamation-triangle text-red-600 mt-1 mr-3"></i>
+                    <i class="fas fa-exclamation-triangle text-sage-600 mt-1 mr-3"></i>
                     <div>
-                        <p class="text-sm font-semibold text-red-800 mb-1">Warning</p>
-                        <p class="text-sm text-red-700">This will reset the scan status and first scan timestamp for ALL vials. This action cannot be undone.</p>
+                        <p class="text-sm font-semibold text-sage-800 mb-1">Warning</p>
+                        <p class="text-sm text-sage-700">This will reset the scan status and first scan timestamp for ALL vials. This action cannot be undone.</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Modal Footer -->
-        <div class="p-6 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
+        <div class="p-6 border-t border-sage-100 bg-sage-50 rounded-b-2xl">
             <div class="flex justify-end space-x-3">
                 <button onclick="closeResetAllModal()" 
-                    class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+                    class="px-6 py-2.5 border border-sage-300 text-sage-700 rounded-lg hover:bg-sage-100 transition-colors font-medium">
                     <i class="fas fa-times mr-2"></i>Cancel
                 </button>
                 <button onclick="confirmResetAllQr()" 
-                    class="px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                    class="px-6 py-2.5 bg-sage-600 text-white rounded-lg hover:bg-sage-700 transition-colors font-medium">
                     <i class="fas fa-sync-alt mr-2"></i>Reset All
                 </button>
             </div>
