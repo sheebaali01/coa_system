@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use App\Models\Sku;
 use App\Models\Batch;
+use App\Models\Vial;
 use Spatie\PdfToImage\Pdf;
 class DashboardController extends Controller
 {
@@ -21,20 +22,20 @@ class DashboardController extends Controller
         $weeklyData = $this->getWeeklyScanData();
         
         // Top Products by Scan Volume
-        $topProducts = $this->getTopProducts();
+        // $topProducts = $this->getTopProducts();
         
         // Recent Batches
-        $recentBatches = $this->getRecentBatches();
+        // $recentBatches = $this->getRecentBatches();
         
         // Recent Scan Activity
-        $recentScans = $this->getRecentScans();
+        // $recentScans = $this->getRecentScans();
 
         return view('admin.dashboard', compact(
             'stats',
             'weeklyData', 
-            'topProducts',
-            'recentBatches',
-            'recentScans'
+            // 'topProducts',
+            // 'recentBatches',
+            // 'recentScans'
         ));
     }
 
@@ -55,10 +56,10 @@ class DashboardController extends Controller
         // Total QR Scans
         $totalScans = Vial::where('is_scanned', true)->count();
         $currentMonthScans = Vial::where('is_scanned', true)
-            ->where('scanned_at', '>=', now()->startOfMonth())
+            ->where('first_scan_at', '>=', now()->startOfMonth())
             ->count();
         $lastMonthScans = Vial::where('is_scanned', true)
-            ->whereBetween('scanned_at', [now()->subMonths(1)->startOfMonth(), now()->subMonths(1)->endOfMonth()])
+            ->whereBetween('first_scan_at', [now()->subMonths(1)->startOfMonth(), now()->subMonths(1)->endOfMonth()])
             ->count();
         $scanGrowth = $lastMonthScans > 0 ? round((($currentMonthScans - $lastMonthScans) / $lastMonthScans) * 100) : 0;
 
@@ -92,7 +93,7 @@ class DashboardController extends Controller
         for ($i = 6; $i >= 0; $i--) {
             $date = now()->subDays($i);
             $scans = Vial::where('is_scanned', true)
-                ->whereDate('scanned_at', $date->format('Y-m-d'))
+                ->whereDate('first_scan_at', $date->format('Y-m-d'))
                 ->count();
             
             $weeklyData[] = [

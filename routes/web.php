@@ -6,18 +6,16 @@ use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\VialController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\AuthController;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Intervention\Image\Laravel\Facades\Image;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
+// use SimpleSoftwareIO\QrCode\Facades\QrCode;
+// use Intervention\Image\Laravel\Facades\Image;
+// use Intervention\Image\ImageManager;
+// use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\Hash;
 
 Route::get('/test-hash', function () {
     return Hash::make('12345678');
 });
-Route::get('/', function () {
-    return view('welcome');
-});
+
 Route::get('/test-qr', function () {
 
     $svg = QrCode::format('png')->size(300)->generate('Hello GD!');
@@ -73,12 +71,30 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 Route::get('/scan/redirect/{vial}', [VialController::class, 'instantRedirect'])
     ->name('vial.instant-redirect');
 
+ Route::get('/', function () {
+    if (!Auth::check()) {
+        return redirect()->route('login');
+    }
+
+    $user = Auth::user();
+
+    if ($user->isAdmin()) {
+        return redirect()->route('admin.dashboard');
+    }
+
+    if ($user->isUser()) {
+        return redirect()->route('user.dashboard');
+    }
+
+    // Default fallback (optional)
+    return redirect()->route('login');
+});
 // Admin Routes
 Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin')->group(function () {
     // Route::get('/dashboard', function () {
     //     return view('admin.dashboard');
     // })->name('dashboard');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::prefix('skus')->name('skus.')->group(function () {
         Route::get('/', [SkuController::class, 'index'])->name('index');
         Route::any('/add', [SkuController::class, 'add'])->name('add');
