@@ -197,10 +197,10 @@ class VialController extends Controller
         // 1. Find the vial
         $vial = Vial::with('batch')->where('unique_code', $vialId)->first();
 
-        if (!$vial) {
-            // If vial not found, redirect to error page
-            return redirect()->away('https://instantpeptides.com/error?message=Invalid+vial+code');
-        }
+        // if (!$vial) {
+        //     // If vial not found, redirect to error page
+        //     return redirect()->away('https://instantpeptides.com/error?message=Invalid+vial+code');
+        // }
 
         // 2. Record the scan immediately
         $vial->increment('scan_count');
@@ -213,12 +213,46 @@ class VialController extends Controller
         }
 
         // 3. Build the external URL
-        $externalUrl = 'https://instantpeptides.com/batch-lookup?' . http_build_query([
+        $externalUrl = 'https://renewpeptideresearch.com/coa?' . http_build_query([
             'vial' => $vial->vial_id,
             'batch' => $vial->batch->batch_id,
         ]);
 
         // 4. INSTANT REDIRECT - no HTML, no page shown
         return redirect()->away($externalUrl, 302);
+    }
+
+
+    public function getData(Request $request){
+        try {
+            $vial = Vial::with('batch.sku')
+            ->where('batch_id', $request->batch_id)
+            ->where('id', $request->vial_id)
+            ->first();
+            $response['status'] = "success";
+            $response['message'] = "success";
+            $response['data'] = $vial;
+            return $response;
+        } catch (\Exception $th) {
+            $response['status'] = "error";
+            $response['message'] = "something went wrong";
+            $response['data'] = null;
+            return $response;
+        }
+    }
+
+    public function getAllVials(Request $request){
+        try {
+            $vials = Vial::where('batch_id', $request->batch_id)->get();
+            $response['status'] = "success";
+            $response['message'] = "success";
+            $response['data'] = $vials;
+            return $response;
+        } catch (\Exception $th) {
+            $response['status'] = "error";
+            $response['message'] = "something went wrong";
+            $response['data'] = [];
+            return $response;
+        }
     }
 }

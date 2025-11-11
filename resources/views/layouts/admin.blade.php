@@ -41,10 +41,10 @@
                         <i class="fas fa-chart-bar w-5"></i>
                         <span class="ml-3 font-medium">Batch Management</span>
                     </a>
-                    <a href="#" class="flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-sage-50 transition-all text-sage-700">
+                    <!-- <a href="#" class="flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-sage-50 transition-all text-sage-700">
                         <i class="fas fa-qrcode w-5"></i>
                         <span class="ml-3 font-medium">Scan Logs</span>
-                    </a>
+                    </a> -->
                 </div>
 
                 <!-- <div class="mb-6">

@@ -6,8 +6,8 @@
 
 @section('content')
 <!-- Top Stats Row -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <!-- Stat Card 1 -->
+<!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
     <div class="bg-white rounded-xl shadow-sm border border-sage-100 p-6 hover:shadow-md transition-all">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-sage-400 to-sage-500 rounded-xl flex items-center justify-center shadow-sm">
@@ -22,7 +22,6 @@
         </div>
     </div>
 
-    <!-- Stat Card 2 -->
     <div class="bg-white rounded-xl shadow-sm border border-sage-100 p-6 hover:shadow-md transition-all">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl flex items-center justify-center shadow-sm">
@@ -37,7 +36,6 @@
         </div>
     </div>
 
-    <!-- Stat Card 3 -->
     <div class="bg-white rounded-xl shadow-sm border border-sage-100 p-6 hover:shadow-md transition-all">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-500 rounded-xl flex items-center justify-center shadow-sm">
@@ -52,7 +50,6 @@
         </div>
     </div>
 
-    <!-- Stat Card 4 -->
     <div class="bg-white rounded-xl shadow-sm border border-sage-100 p-6 hover:shadow-md transition-all">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-500 rounded-xl flex items-center justify-center shadow-sm">
@@ -66,11 +63,10 @@
             <p class="text-xs text-sage-400">This week</p>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Charts Row -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-    <!-- Weekly Overview Chart -->
+<!-- <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
     <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-sage-100 p-6">
         <div class="flex items-center justify-between mb-6">
             <div>
@@ -81,8 +77,7 @@
                 <i class="fas fa-ellipsis-v text-sage-400"></i>
             </button>
         </div>
-        
-        <!-- Chart Placeholder -->
+
         <div class="h-64 flex items-end justify-between space-x-2">
             <div class="flex-1 bg-gradient-to-t from-sage-400 to-sage-300 rounded-t-lg opacity-60" style="height: 45%"></div>
             <div class="flex-1 bg-gradient-to-t from-sage-400 to-sage-300 rounded-t-lg opacity-70" style="height: 60%"></div>
@@ -103,7 +98,6 @@
         </div>
     </div>
 
-    <!-- Product Distribution -->
     <div class="bg-white rounded-xl shadow-sm border border-sage-100 p-6">
         <div class="flex items-center justify-between mb-6">
             <div>
@@ -115,7 +109,6 @@
             </button>
         </div>
 
-        <!-- Donut Chart Placeholder -->
         <div class="flex items-center justify-center mb-6">
             <div class="relative w-40 h-40">
                 <svg class="w-40 h-40 transform -rotate-90">
@@ -132,7 +125,6 @@
             </div>
         </div>
 
-        <!-- Legend -->
         <div class="space-y-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
@@ -157,11 +149,10 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Recent Activity & Batch Timeline -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-    <!-- Recent Batches -->
+<!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
     <div class="bg-white rounded-xl shadow-sm border border-sage-100 p-6">
         <div class="flex items-center justify-between mb-6">
             <div>
@@ -172,7 +163,6 @@
         </div>
 
         <div class="space-y-4">
-            <!-- Batch Item -->
             <div class="flex items-center p-4 rounded-lg border border-sage-100 hover:border-sage-300 transition-all">
                 <div class="w-10 h-10 bg-sage-100 rounded-lg flex items-center justify-center">
                     <i class="fas fa-flask text-sage-600"></i>
@@ -186,8 +176,6 @@
                     <p class="text-xs text-sage-400 mt-1">2 hours ago</p>
                 </div>
             </div>
-
-            <!-- Batch Item -->
             <div class="flex items-center p-4 rounded-lg border border-sage-100 hover:border-sage-300 transition-all">
                 <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                     <i class="fas fa-flask text-blue-600"></i>
@@ -201,8 +189,6 @@
                     <p class="text-xs text-sage-400 mt-1">5 hours ago</p>
                 </div>
             </div>
-
-            <!-- Batch Item -->
             <div class="flex items-center p-4 rounded-lg border border-sage-100 hover:border-sage-300 transition-all">
                 <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                     <i class="fas fa-flask text-purple-600"></i>
@@ -216,8 +202,6 @@
                     <p class="text-xs text-sage-400 mt-1">1 day ago</p>
                 </div>
             </div>
-
-            <!-- Batch Item -->
             <div class="flex items-center p-4 rounded-lg border border-sage-100 hover:border-sage-300 transition-all">
                 <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
                     <i class="fas fa-flask text-red-600"></i>
@@ -234,7 +218,6 @@
         </div>
     </div>
 
-    <!-- QR Scan Activity -->
     <div class="bg-white rounded-xl shadow-sm border border-sage-100 p-6">
         <div class="flex items-center justify-between mb-6">
             <div>
@@ -247,7 +230,7 @@
         </div>
 
         <div class="space-y-4">
-            <!-- Activity Item -->
+
             <div class="flex items-start">
                 <div class="w-2 h-2 bg-sage-400 rounded-full mt-2 mr-4"></div>
                 <div class="flex-1">
@@ -315,13 +298,13 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Quick Actions -->
-<!-- <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <a href="{{ route('admin.skus.index') }}" class="bg-gradient-to-br from-sage-400 to-sage-500 rounded-xl shadow-sm p-6 text-white hover:shadow-lg transition-all group">
         <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+            <div class="w-12 h-12  bg-opacity-20 rounded-lg flex items-center justify-center">
                 <i class="fas fa-plus text-2xl"></i>
             </div>
             <i class="fas fa-arrow-right opacity-0 group-hover:opacity-100 transition-opacity"></i>
@@ -332,7 +315,7 @@
 
     <a href="{{ route('admin.batches.index') }}" class="bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl shadow-sm p-6 text-white hover:shadow-lg transition-all group">
         <div class="flex items-center justify-between mb-4">
-            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+            <div class="w-12 h-12 bg-opacity-20 rounded-lg flex items-center justify-center">
                 <i class="fas fa-flask text-2xl"></i>
             </div>
             <i class="fas fa-arrow-right opacity-0 group-hover:opacity-100 transition-opacity"></i>
@@ -341,7 +324,7 @@
         <p class="text-blue-100 text-sm">Start a new production batch</p>
     </a>
 
-    <a href="#" class="bg-gradient-to-br from-purple-400 to-purple-500 rounded-xl shadow-sm p-6 text-white hover:shadow-lg transition-all group">
+    <!-- <a href="#" class="bg-gradient-to-br from-purple-400 to-purple-500 rounded-xl shadow-sm p-6 text-white hover:shadow-lg transition-all group">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
                 <i class="fas fa-download text-2xl"></i>
@@ -350,7 +333,7 @@
         </div>
         <h3 class="text-xl font-bold mb-2">Export Reports</h3>
         <p class="text-purple-100 text-sm">Download analytics and data</p>
-    </a>
-</div> -->
+    </a> -->
+</div>
 
 @endsection
