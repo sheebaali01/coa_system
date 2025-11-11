@@ -19,7 +19,7 @@ class VialService
         $vials = [];
 
         for ($i = 1; $i <= $batch->total_vials; $i++) {
-            $code = $batch->batch_number . '-' . str_pad($i, 4, '0', STR_PAD_LEFT);
+            $code = $batch->batch_number . '-'. $batch->id. '-' . str_pad($i, 4, '0', STR_PAD_LEFT);
 
             $path = "qr_codes/{$batch->batch_number}/{$code}.svg";
             // $url = url('/scan/' . $code);

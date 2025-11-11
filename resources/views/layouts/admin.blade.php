@@ -29,15 +29,15 @@
             <nav class="mt-4 px-3">
                 <div class="mb-6">
                     <p class="px-3 text-xs font-semibold text-sage-500 uppercase tracking-wider mb-2">Main Menu</p>
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-sage-50 transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-sage-400 text-white shadow-md' : 'text-sage-700' }}">
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-sage-50 transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-sage-400 hover:text-sage-600 text-white shadow-md' : 'text-sage-700' }}">
                         <i class="fas fa-home w-5"></i>
                         <span class="ml-3 font-medium">Dashboard</span>
                     </a>
-                    <a href="{{ route('admin.skus.index') }}" class="flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-sage-50 transition-all {{ request()->routeIs('admin.skus.*') ? 'bg-sage-400 text-white shadow-md' : 'text-sage-700' }}">
+                    <a href="{{ route('admin.skus.index') }}" class="flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-sage-50 transition-all {{ request()->routeIs('admin.skus.*') ? 'bg-sage-400 hover:text-sage-600 text-white shadow-md' : 'text-sage-700' }}">
                         <i class="fas fa-box w-5"></i>
                         <span class="ml-3 font-medium">SKU Management</span>
                     </a>
-                    <a href="{{ route('admin.batches.index')}}" class="flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-sage-50 transition-all {{ request()->routeIs('admin.batches.*') ? 'bg-sage-400 text-white shadow-md' : 'text-sage-700' }}">
+                    <a href="{{ route('admin.batches.index')}}" class="flex items-center px-4 py-3 mb-1 rounded-lg hover:bg-sage-50 transition-all {{ request()->routeIs('admin.batches.*') ? 'bg-sage-400 hover:text-sage-600 text-white shadow-md' : 'text-sage-700' }}">
                         <i class="fas fa-chart-bar w-5"></i>
                         <span class="ml-3 font-medium">Batch Management</span>
                     </a>
