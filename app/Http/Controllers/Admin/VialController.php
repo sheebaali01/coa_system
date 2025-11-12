@@ -146,7 +146,8 @@ class VialController extends Controller
             // Reset all vials
             Vial::where('is_scanned', 1)->where('batch_id',$batchId)->update([
                 'is_scanned' => 0,
-                'first_scan_at' => null
+                'first_scan_at' => null,
+                'scan_count' => 0,
             ]);
             
             DB::commit();
@@ -171,9 +172,10 @@ class VialController extends Controller
     public function resetQrCode($vialId)
     {
         try {       
-            Vial::where('batch_id',$vialId)->update([
+            Vial::where('id',$vialId)->update([
                 'is_scanned' => 0,
-                'first_scan_at' => null
+                'first_scan_at' => null,
+                'scan_count' => 0,
             ]);
                       
             Session::flash('success', 'Reset successful!');
@@ -208,16 +210,15 @@ class VialController extends Controller
         if (!$vial->is_scanned) {
             $vial->update([
                 'is_scanned' => true,
-                'scanned_at' => now(),
+                'first_scan_at' => now(),
             ]);
         }
 
         // 3. Build the external URL
-        $externalUrl = 'https://renewpeptideresearch.com/coa?' . http_build_query([
-            'vial' => $vial->vial_id,
-            'batch' => $vial->batch->batch_id,
+        $externalUrl = 'https://renewpeptideresearch.com/coa-details?' . http_build_query([
+            'vial' => $vial->id,
+            'batch' => $vial->batch->id,
         ]);
-
         // 4. INSTANT REDIRECT - no HTML, no page shown
         return redirect()->away($externalUrl, 302);
     }

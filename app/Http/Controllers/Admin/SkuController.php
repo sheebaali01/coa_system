@@ -91,9 +91,20 @@ class SkuController extends Controller
 
     public function delete($id)
     {
-        $sku = Sku::find($id);
+        $sku = Sku::with('batches.vials')->findOrFail($id);
+
+        // Delete related vials of each batch
+        foreach ($sku->batches as $batch) {
+            $batch->vials()->delete();
+        }
+
+        // Delete related batches
+        $sku->batches()->delete();
+
+        // Delete the SKU itself
         $sku->delete();
-        Session::flash('success', 'SKU deleted successfully!');
+
+        Session::flash('success', 'SKU and its related batches & vials deleted successfully!');
         return redirect()->route('admin.skus.index');
     }
 
