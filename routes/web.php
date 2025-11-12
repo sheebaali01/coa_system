@@ -114,7 +114,7 @@ Route::middleware(['auth', 'admin'])->name('admin.')->prefix('admin')->group(fun
         Route::any('/add', [VialController::class, 'add'])->name('add');
         Route::any('/update/{id}', [VialController::class, 'update'])->name('update');
         Route::any('/view/{id}', [VialController::class, 'view'])->name('view');
-        Route::get('/export/pdf', [VialController::class, 'exportPdf'])
+        Route::get('/export/pdf/{batchId}', [VialController::class, 'exportPdf'])
         ->name('export.pdf');
         Route::get('/export/excel', [VialController::class, 'exportExcel'])
         ->name('export.excel');

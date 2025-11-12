@@ -10,7 +10,7 @@
             <i class="fas fa-file-excel mr-2"></i>
             Export Excel
         </a> -->
-        <a href="{{ route('admin.vials.export.pdf') }}" 
+        <a href="{{ route('admin.vials.export.pdf', $batchId) }}" 
             class="bg-sage-600 text-white px-6 py-3 rounded-lg hover:bg-sage-700 flex items-center">
             <i class="fas fa-file-pdf mr-2"></i>
             Export PDF

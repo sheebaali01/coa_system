@@ -107,11 +107,13 @@ class VialController extends Controller
         
         return Excel::download(new VialsExport(), $fileName);
     }
-    public function exportPdf()
+    public function exportPdf($batchId)
     {
-        $vials = Vial::with(['batch.sku'])->get();
+        $vials = Vial::with(['batch.sku'])
+        ->where('batch_id', $batchId)
+        ->get();
         
-        $pdf = Pdf::loadView('admin.vial.pdf', compact('vials'))
+        $pdf = Pdf::loadView('admin.vial.pdf', compact('vials' , 'batchId'))
                   ->setPaper('a4', 'landscape');
         
         $fileName = 'vials_' . now()->format('Y-m-d_His') . '.pdf';
