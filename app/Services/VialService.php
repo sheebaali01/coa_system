@@ -4,7 +4,8 @@ namespace App\Services;
 
 use App\Models\Vial;
 use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 
 class VialService
 {
@@ -21,22 +22,20 @@ class VialService
         for ($i = 1; $i <= $batch->total_vials; $i++) {
             $code = $batch->batch_number . '-'. $batch->id. '-' . str_pad($i, 4, '0', STR_PAD_LEFT);
 
-            $path = "qr_codes/{$batch->batch_number}/{$code}.svg";
-            // $url = url('/scan/' . $code);
-            // $url = 'https://instantpeptides.com?vial=' . urlencode($code);
-
-            // $url = 'https://instantpeptides.com/batch-lookup?' . http_build_query([
-            
-            //     'vial'  => $code,
-            // ]);
-
+            $path = "qr_codes/{$batch->batch_number}/{$code}.png";
             $url = route('vial.instant-redirect', ['vial' => $code]);
-            // Generate QR code
-            $qr = QrCode::size(300)->generate($url);
 
+            // Generate QR code
+            $qr = QrCode::create($url)
+                ->setSize(300)
+                ->setMargin(10);
+            
+            $writer = new PngWriter();
+            $result = $writer->write($qr);
+            
             // Save to storage/app/public/qr_codes/{batch_number}/
-            Storage::disk('public')->put($path, $qr);
-            // $file->storeAs("coa_documents/{$request->batch_number}", $fileName, 'public');
+            // Use getString() to get the binary PNG data
+            Storage::disk('public')->put($path, $result->getString());
 
             // Prepare vial data
             $vials[] = [

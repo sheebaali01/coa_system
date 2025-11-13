@@ -50,7 +50,7 @@ class VialsExport implements FromCollection, WithHeadings, WithMapping, WithDraw
             $vial->batch->sku->product_name ?? 'N/A',
             $vial->unique_code,
             $vial->is_scanned ? 'Yes' : 'No',
-            $vial->scanned_at ? $vial->scanned_at->format('Y-m-d H:i:s') : 'N/A',
+            $vial->first_scanned_at ? $vial->first_scanned_at->format('Y-m-d H:i:s') : 'N/A',
             '', // QR Code column (will be filled with images)
         ];
     }
