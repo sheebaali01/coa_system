@@ -176,6 +176,12 @@ class BatchController extends Controller
             return redirect()->back()->withInput();
         }
     }
+
+    public function view(Request $request,$id){
+        $batch = Batch::with(['sku', 'vials'])->findOrFail($id);
+
+        return view('admin.batch.view', compact('batch'));
+    }
     /**
  * Handle when vial count is increased or decreased
  */
@@ -255,12 +261,6 @@ private function increaseVialCount(Batch $batch, $oldCount, $newCount)
         if ($removedCount > 0) {
             Session::flash('warning', "Removed {$removedCount} vials from this batch. Any scanned vials were preserved.");
         }
-    }
-
-    public function view($id)
-    {
-        $batch = Batch::findOrFail($id);
-        return view('admin.batch.view', compact('batch'));
     }
     private function deleteOldestBatchForSku($skuId)
     {
